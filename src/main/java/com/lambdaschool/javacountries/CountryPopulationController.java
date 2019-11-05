@@ -39,4 +39,20 @@ public class CountryPopulationController {
                 ((int) (c2.getCountryPopulation() - c1.getCountryPopulation())));
         return new ResponseEntity<>(JavaCountriesApplication.theCountryList.countryList.get(0), HttpStatus.OK);
     }
+
+    // Return the country with the median population
+    @GetMapping(value = "/median",
+                produces = {"application/json"})
+    public ResponseEntity<?> getMedianPopulation() {
+        int median;
+        int populationSize = JavaCountriesApplication.theCountryList.countryList.size() - 1;
+        if (populationSize % 2 == 0) {
+            median = populationSize / 2;
+        } else {
+            median = ((populationSize + 1) / 2);
+        }
+        JavaCountriesApplication.theCountryList.countryList.sort((c1, c2) ->
+                ((int) (c1.getCountryPopulation() - c2.getCountryPopulation())));
+        return new ResponseEntity<>(JavaCountriesApplication.theCountryList.countryList.get(median), HttpStatus.OK);
+    }
 }
